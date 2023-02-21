@@ -4,6 +4,8 @@ import requests
 API_KEY = "33945f61ed45603d2cb17ef86700b517"
 API_KEY_2 = "75732110e5199414f9d57155fbed54a6"
 units = ["metric", "imperial", ""] # temperature in Celsius / Fahrenheit / Kelvin (absolute temperature scale)
+
+
 def get_data(place, forecast_days=None):
     url = f"https://api.openweathermap.org/data/2.5/forecast?q={place}&appid={API_KEY}&units={units[0]}"
     # Los Angeles: https://api.openweathermap.org/data/2.5/forecast?q=los%20angeles&appid=75732110e5199414f9d57155fbed54a6&units=metric

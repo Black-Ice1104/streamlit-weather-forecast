@@ -3,7 +3,6 @@ import streamlit as st
 from send_email import *
 
 st.header("Subscribe")
-
 with st.form(key="email_forms"):
     city = st.text_input("The city / region to subscribe")
     address = st.text_input("Your email address")

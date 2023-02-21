@@ -52,6 +52,7 @@ def send_subscribe(firstname, address, city):
     print("emails sent to " + address)
 
 
+# send a weather forecast email to the subscriber at 6pm every day
 def send_weather():
     df = pandas.read_excel('users.xlsx', sheet_name="users")
     for idx, row in df.iterrows():
