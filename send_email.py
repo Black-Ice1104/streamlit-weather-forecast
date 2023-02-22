@@ -1,9 +1,11 @@
 
 import yagmail
 import pandas
+import streamlit as st
 from backend import get_data
-from keys import sender_addr, sender_pswd
 
+st.write("sender_addr:", st.secrets["sender_addr"])
+st.write("sender_pswd:", st.secrets["sender_pswd"])
 
 # store the user info from the subscribe form
 def store_subscribe(firstname, lastname, address, city):
@@ -39,7 +41,7 @@ def send_subscribe(firstname, address, city):
            Hi, {firstname}\n
            \tThis is Weather Forecast Web App
            \tYou have successfully subscribed to our daily reminder service!
-           \tWe will send you an email about the weather in {city} at 6am every day.
+           \tWe will send you an email about the weather in {city} at 6pm every day.
            \tHave a nice day! \n
            """
     email = yagmail.SMTP(user=sender_addr, password=sender_pswd)
