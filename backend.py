@@ -2,7 +2,7 @@
 import requests
 import streamlit as st
 
-API_KEY = st.credentials.weather_key.API_KEY
+API_KEY = st.secrets.weather_key.API_KEY
 units = ["metric", "imperial", ""]  # temperature in Celsius / Fahrenheit / Kelvin (absolute temperature scale)
 
 

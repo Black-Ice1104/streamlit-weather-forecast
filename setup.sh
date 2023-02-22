@@ -3,12 +3,15 @@ mkdir -p ~/.streamlit/
 echo "\
 [general]\n\
 email = \"michaelice2604@gmail.com\"\n\
+" > ~/.streamlit/credentials.toml
+
+echo "\
 [email_key]\n\
 sender_addr = \"michaelice2604@gmail.com\"\n\
 sender_pswd = \"hkkjsmtnckbcxcwp\"\n\
 [weather_key]\n\
 API_KEY = \"33945f61ed45603d2cb17ef86700b517\"\n\
-" > ~/.streamlit/credentials.toml
+" > ~/.streamlit/secrets.toml
 
 echo "\
 [server]\n\
