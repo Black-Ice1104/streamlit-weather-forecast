@@ -4,8 +4,8 @@ import pandas
 import streamlit as st
 from backend import get_data
 
-sender_addr = st.secrets.email_key.sender_addr
-sender_pswd = st.secrets.email_key.sender_pswd
+sender_addr = st.credentials.email_key.sender_addr
+sender_pswd = st.credentials.email_key.sender_pswd
 
 
 # store the user info from the subscribe form
