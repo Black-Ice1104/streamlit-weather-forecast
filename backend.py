@@ -1,7 +1,9 @@
 
 import requests
-from keys import API_KEY
-units = ["metric", "imperial", ""] # temperature in Celsius / Fahrenheit / Kelvin (absolute temperature scale)
+import streamlit as st
+
+API_KEY = st.secrets.weather_key.API_KEY
+units = ["metric", "imperial", ""]  # temperature in Celsius / Fahrenheit / Kelvin (absolute temperature scale)
 
 
 def get_data(place, forecast_days=None):

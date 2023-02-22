@@ -1,5 +1,4 @@
 
-import streamlit as st
 from send_email import *
 
 st.header("Subscribe")
