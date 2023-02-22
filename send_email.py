@@ -2,9 +2,7 @@
 import yagmail
 import pandas
 from backend import get_data
-
-sender_addr = "michaelice2604@gmail.com"
-sender_pswd = "hkkjsmtnckbcxcwp"
+from keys import sender_addr, sender_pswd
 
 
 # store the user info from the subscribe form
@@ -41,7 +39,7 @@ def send_subscribe(firstname, address, city):
            Hi, {firstname}\n
            \tThis is Weather Forecast Web App
            \tYou have successfully subscribed to our daily reminder service!
-           \tWe will send you an email about the weather in {city} at 6pm every day.
+           \tWe will send you an email about the weather in {city} at 6am every day.
            \tHave a nice day! \n
            """
     email = yagmail.SMTP(user=sender_addr, password=sender_pswd)
