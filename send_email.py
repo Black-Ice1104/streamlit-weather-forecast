@@ -3,9 +3,6 @@ import yagmail
 import pandas
 from backend import get_data
 
-sender_addr = "michaelice2604@gmail.com"
-sender_pswd = "hkkjsmtnckbcxcwp"
-
 
 # store the user info from the subscribe form
 def store_subscribe(firstname, lastname, address, city):
