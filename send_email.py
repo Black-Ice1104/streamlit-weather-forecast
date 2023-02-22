@@ -1,8 +1,11 @@
 
 import yagmail
 import pandas
+import strealit as st
 from backend import get_data
 
+st.write("sender_addr:", st.secrets["sender_addr"])
+st.write("sender_pswd:", st.secrets["sender_pswd"])
 
 # store the user info from the subscribe form
 def store_subscribe(firstname, lastname, address, city):
