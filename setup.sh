@@ -3,7 +3,6 @@ mkdir -p ~/.streamlit/
 echo "\
 [general]\n\
 email = \"michaelice2604@gmail.com\"\n\
-michaelice2604@gmail.com
 [email_key]\n\
 sender_addr = \"michaelice2604@gmail.com\"\n\
 sender_pswd = \"hkkjsmtnckbcxcwp\"\n\
