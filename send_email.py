@@ -1,7 +1,7 @@
 
 import yagmail
 import pandas
-import strealit as st
+import streamlit as st
 from backend import get_data
 
 st.write("sender_addr:", st.secrets["sender_addr"])
