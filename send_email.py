@@ -18,7 +18,6 @@ def store_subscribe(firstname, lastname, address, city):
     df = pandas.read_excel('users.xlsx', sheet_name="users")
     for idx, row in df.iterrows():
         firstnames.append(row['firstname'])
-        firstnames.append(row['firstname'])
         lastnames.append(row['lastname'])
         addresses.append(row['address'])
         cities.append(row['city'])
