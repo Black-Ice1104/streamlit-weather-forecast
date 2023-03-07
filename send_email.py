@@ -18,26 +18,41 @@ def store_subscribe(firstname, lastname, address, city):
     cities = []
     timezones = []
     df = pandas.read_excel('users.xlsx', sheet_name="users")
+    repeat = False  # will only append new subscriber when unrepeated with current ones
     for idx, row in df.iterrows():
+        count = 0
         firstnames.append(row['firstname'])
         lastnames.append(row['lastname'])
         addresses.append(row['address'])
         cities.append(row['city'])
         timezones.append(row['timezone'])
+        if not repeat:
+            if row['firstname'] == firstname:
+                count += 1
+            if row['lastname'] == lastname:
+                count += 1
+            if row['address'] == address:
+                count += 1
+            if row['city'] == city:
+                count += 1
+            if count == 4:
+                repeat = True
 
     # add the new subscriber to the last row
-    firstnames.append(firstname)
-    lastnames.append(lastname)
-    addresses.append(address)
-    cities.append(city)
-    timezone = str(int(get_data(city, 1)[1]))
-    timezones.append(timezone)
+    if not repeat:
+        firstnames.append(firstname)
+        lastnames.append(lastname)
+        addresses.append(address)
+        cities.append(city)
+        timezone = str(int(get_data(city, 1)[1]))
+        timezones.append(timezone)
 
     # write in file
     columns = ['firstname', 'lastname', 'address', 'city', 'timezone']
     df = pandas.DataFrame(list(zip(firstnames, lastnames, addresses, cities, timezones)), columns=columns)
     with pandas.ExcelWriter('users.xlsx', mode='a', if_sheet_exists='overlay') as writer:
         df.to_excel(writer, sheet_name='users')
+    return repeat
 
 
 # send emails to the user about subscription successful

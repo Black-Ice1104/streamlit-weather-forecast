@@ -10,8 +10,11 @@ with st.form(key="email_forms"):
     button = st.form_submit_button("Subscribe Now")
     if button:
         try:
-            store_subscribe(firstname, lastname, address, city)
-            send_subscribe(firstname, address, city)
-            st.info("Subscription Successful!")
+            repeat = store_subscribe(firstname, lastname, address, city)
+            if not repeat:
+                send_subscribe(firstname, address, city)
+                st.info("Subscription Successful!")
+            else:
+                st.info("Sorry, you have already subscribed!")
         except KeyError:
-            st.write("The place does not exist. Please modify the place name and press Enter again.")
+            st.info("The place does not exist. Please modify the place name and subscribe again.")
