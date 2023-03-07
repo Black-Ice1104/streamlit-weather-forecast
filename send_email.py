@@ -20,22 +20,13 @@ def store_subscribe(firstname, lastname, address, city):
     df = pandas.read_excel('users.xlsx', sheet_name="users")
     repeat = False  # will only append new subscriber when unrepeated with current ones
     for idx, row in df.iterrows():
-        count = 0
         firstnames.append(row['firstname'])
         lastnames.append(row['lastname'])
         addresses.append(row['address'])
         cities.append(row['city'])
         timezones.append(row['timezone'])
         if not repeat:
-            if row['firstname'] == firstname:
-                count += 1
-            if row['lastname'] == lastname:
-                count += 1
-            if row['address'] == address:
-                count += 1
-            if row['city'] == city:
-                count += 1
-            if count == 4:
+            if row['city'] == city and row['address'] == address:
                 repeat = True
 
     # add the new subscriber to the last row
