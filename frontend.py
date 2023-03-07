@@ -1,7 +1,6 @@
 
-import streamlit as st
 import plotly.express as px
-from backend import get_data
+from send_email import *
 
 
 def web():
@@ -17,7 +16,8 @@ def web():
     if place:
         try:
             # Get the temperature / sky data
-            filtered_data = get_data(place, days)
+            filtered_data = get_data(place, days)[0]
+            # print(get_data(place, days)[1])
 
             if option == "Temperature":
                 temperatures = [dict["main"]["temp"] for dict in filtered_data]
@@ -35,6 +35,5 @@ def web():
                 image_paths = [images[condition] for condition in sky_conditions]
                 text_layout = [condition for condition in sky_conditions]
                 st.image(image_paths, width=132)
-                # st.caption(text_layout)
         except KeyError:
             st.write("The place does not exist. Please modify the place name and press Enter again.")

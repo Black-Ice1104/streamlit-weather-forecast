@@ -3,12 +3,11 @@ import requests
 import streamlit as st
 
 API_KEY = st.secrets.weather_key.API_KEY
-units = ["metric", "imperial", ""]  # temperature in Celsius / Fahrenheit / Kelvin (absolute temperature scale)
+units = ["metric", "imperial"]  # temperature in Celsius / Fahrenheit / Kelvin (absolute temperature scale)
 
 
 def get_data(place, forecast_days=None):
     url = f"https://api.openweathermap.org/data/2.5/forecast?q={place}&appid={API_KEY}&units={units[0]}"
-
     response = requests.get(url)
     data = response.json()
     filtered_data = data["list"]
@@ -34,4 +33,4 @@ def get_data(place, forecast_days=None):
     update_times = 8 * forecast_days
     filtered_data = filtered_data[:update_times]
 
-    return filtered_data
+    return filtered_data, time_zone

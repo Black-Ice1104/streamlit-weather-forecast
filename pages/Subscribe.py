@@ -9,6 +9,9 @@ with st.form(key="email_forms"):
     lastname = st.text_input("Your lastname")
     button = st.form_submit_button("Subscribe Now")
     if button:
-        store_subscribe(firstname, lastname, address, city)
-        send_subscribe(firstname, address, city)
-        st.info("Subscription Successful!")
+        try:
+            store_subscribe(firstname, lastname, address, city)
+            send_subscribe(firstname, address, city)
+            st.info("Subscription Successful!")
+        except KeyError:
+            st.write("The place does not exist. Please modify the place name and press Enter again.")
