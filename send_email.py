@@ -70,7 +70,7 @@ def send_weather():
         timezone = row['timezone']
         # the now time is GMT i.e. Greenwich Mean Time
         # store the data at 9pm in the current timezone
-        if datetime.datetime.now().hour == 21 - int(timezone):
+        if datetime.datetime.now().hour == GMT_to_localtime(21, int(timezone)):
             place = row['city']
             days = 1
             filtered_data = get_data(place, days)[0]
@@ -92,10 +92,20 @@ def send_weather():
             body += "\nHave a wonderful day!"
 
         # will only send email if it is 6am in the current timezone
-        if datetime.datetime.now().hour == 6 - int(timezone):
+        if datetime.datetime.now().hour == GMT_to_localtime(6, int(timezone)):
             email = yagmail.SMTP(user=sender_addr, password=sender_pswd)
             email.send(to=row['address'],
                        subject=f"Your Weather Forecast for {row['city']} today!",
                        contents=body
                        )
             print("emails sent to " + row['address'])
+
+
+def GMT_to_localtime(GMT, timezone):
+    local = GMT - timezone
+    if local > 24:
+        return local - 24
+    elif local < 0:
+        return 24 + local
+    else:
+        return local
