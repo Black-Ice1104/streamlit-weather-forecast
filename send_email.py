@@ -68,8 +68,9 @@ def send_weather():
     df = pandas.read_excel('users.xlsx', sheet_name="users")
     for idx, row in df.iterrows():
         timezone = row['timezone']
-        # will only send email if it is 6am in the current timezone
-        if datetime.datetime.now().hour == 6 - int(timezone):  # the now time is GMT i.e. Greenwich Mean Time
+        # the now time is GMT i.e. Greenwich Mean Time
+        # store the data at 9pm in the current timezone
+        if datetime.datetime.now().hour == 21 - int(timezone):
             place = row['city']
             days = 1
             filtered_data = get_data(place, days)[0]
@@ -90,6 +91,8 @@ def send_weather():
                 body += item
             body += "\nHave a wonderful day!"
 
+        # will only send email if it is 6am in the current timezone
+        if datetime.datetime.now().hour == 6 - int(timezone):
             email = yagmail.SMTP(user=sender_addr, password=sender_pswd)
             email.send(to=row['address'],
                        subject=f"Your Weather Forecast for {row['city']} today!",
