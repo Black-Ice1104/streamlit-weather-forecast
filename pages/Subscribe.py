@@ -43,6 +43,7 @@ if not cookies.ready():
 st.write(cookies)
 
 if cache == Null:
+    st.write("url: ", url)
     if url == original:  # not login
         st.write(get_login_str(), unsafe_allow_html=True)  # show "Login with Google"
     else:  # login, but not save cookies
