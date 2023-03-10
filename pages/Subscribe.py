@@ -25,7 +25,7 @@ if IS_RELEASED == "True":
     main = "https://streamlit-weather-forecast.herokuapp.com/"
     original = "https://streamlit-weather-forecast.herokuapp.com/Subscribe"
     cache = cookies
-    Null = {}
+    Null = None
 else:
     main = "http://localhost:8501"
     original = "http://localhost:8501/Subscribe"
