@@ -16,6 +16,7 @@ CLIENT_ID = \"731762886466-uikv4v9pfcpjosamgvv7e104jsiq9l5m.apps.googleuserconte
 CLIENT_SECRET = \"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\"\n\
 REDIRECT_URI = \"https://streamlit-weather-forecast.herokuapp.com\"\n\
 SUBSCRIBE_URI = \"https://streamlit-weather-forecast.herokuapp.com/Subscribe\"\n\
+IS_RELEASED = \"True\"\n\
 PSWD = \"123\"\n\
 " > ~/.streamlit/secrets.toml
 

@@ -9,7 +9,6 @@ from httpx_oauth.clients.google import GoogleOAuth2
 CLIENT_ID = st.secrets.oauth_key.CLIENT_ID
 CLIENT_SECRET = st.secrets.oauth_key.CLIENT_SECRET
 REDIRECT_URI = st.secrets.oauth_key.REDIRECT_URI
-original = "http://localhost:8501/Subscribe"
 
 async def get_authorization_url(client: GoogleOAuth2, redirect_uri: str):
     authorization_url = await client.get_authorization_url(redirect_uri, scope=["profile", "email"])
