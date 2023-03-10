@@ -22,8 +22,13 @@ cookies = EncryptedCookieManager(
 
 IS_RELEASED = st.secrets.oauth_key.IS_RELEASED
 if IS_RELEASED == "True":
-    main = "https://streamlit-weather-forecast.herokuapp.com/"
+    main = "https://streamlit-weather-forecast.herokuapp.com"
     original = "https://streamlit-weather-forecast.herokuapp.com/Subscribe"
+    cache = cookies
+    Null = None
+elif IS_RELEASED == "Streamlit":
+    main = "https://weather-forecast-subscribe.streamlit.app"
+    original = "https://weather-forecast-subscribe.streamlit.app/Subscribe"
     cache = cookies
     Null = None
 else:
