@@ -1,8 +1,6 @@
 
 import plotly.express as px
 from send_email import *
-
-
 def web():
     # Add title, text input, slider, select box and subheader
     st.title("Weather Forecast for the Next Days")
@@ -12,7 +10,6 @@ def web():
                           ("Temperature", "Sky"))
     # using fstring because the header is dynamic (any change in place, days or option would change the header)
     st.subheader(f"{option} for the next {days} days in {place}")
-
     if place:
         try:
             # Get the temperature / sky data
