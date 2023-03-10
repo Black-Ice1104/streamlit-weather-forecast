@@ -10,8 +10,10 @@ from streamlit_cookies_manager import EncryptedCookieManager
 
 st.header("Subscribe")
 url = st_javascript("await fetch('').then(r => window.parent.location.href)")
-main = "http://localhost:8501"
-original = "http://localhost:8501/Subscribe"
+# main = "http://localhost:8501"
+# original = "http://localhost:8501/Subscribe"
+main = "https://streamlit-weather-forecast.herokuapp.com/"
+original = "https://streamlit-weather-forecast.herokuapp.com/Subscribe"
 
 # This should be on top of your script
 cookies = EncryptedCookieManager(

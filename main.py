@@ -10,7 +10,8 @@ def send_email():
     while True:
         if datetime.datetime.now().minute == 0:  # if it is on the hour
             send_weather()
-            time.sleep(60 * 59)  # sleep for 59 minutes after sending email
+            time.sleep(60)
+            # time.sleep(60 * 59)  # sleep for 59 minutes after sending email
 
 
 if __name__ == "__main__":

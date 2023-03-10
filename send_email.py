@@ -53,7 +53,8 @@ def send_subscribe(firstname, address, city):
            \tThis is Weather Forecast Web App
            \tYou have successfully subscribed to our daily reminder service!
            \tWe will send you an email about the weather in {city} at 6am every day.
-           \tHave a nice day! \n
+           \tHave a nice day! \n\n\n\n
+           \tTo unsubscribe, visit http://localhost:8501
            """
     email = yagmail.SMTP(user=sender_addr, password=sender_pswd)
     email.send(to=address,
