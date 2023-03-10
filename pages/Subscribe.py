@@ -28,7 +28,7 @@ if IS_RELEASED == "True":
     Null = None
 elif IS_RELEASED == "Streamlit":
     main = "https://weather-forecast-subscribe.streamlit.app"
-    original = "https://weather-forecast-subscribe.streamlit.app/Subscribe"
+    original = "https://weather-forecast-subscribe.streamlit.app/~/+/Subscribe"
     cache = cookies
     Null = cookies
 else:
