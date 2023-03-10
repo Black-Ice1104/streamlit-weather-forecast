@@ -8,6 +8,13 @@ import datetime
 sender_addr = st.secrets.email_key.sender_addr
 sender_pswd = st.secrets.email_key.sender_pswd
 
+IS_RELEASED = st.secrets.oauth_key.IS_RELEASED
+if IS_RELEASED == "True":
+    main = "https://streamlit-weather-forecast.herokuapp.com/"
+    original = "https://streamlit-weather-forecast.herokuapp.com/Subscribe"
+else:
+    main = "http://localhost:8501"
+    original = "http://localhost:8501/Subscribe"
 
 # store the user info from the subscribe form
 def store_subscribe(firstname, lastname, address, city):
@@ -20,14 +27,15 @@ def store_subscribe(firstname, lastname, address, city):
     df = pandas.read_excel('users.xlsx', sheet_name="users")
     repeat = False  # will only append new subscriber when unrepeated with current ones
     for idx, row in df.iterrows():
-        firstnames.append(row['firstname'])
-        lastnames.append(row['lastname'])
-        addresses.append(row['address'])
-        cities.append(row['city'])
-        timezones.append(row['timezone'])
-        if not repeat:
-            if row['city'] == city and row['address'] == address:
-                repeat = True
+        if row['city'] != "Null":
+            firstnames.append(row['firstname'])
+            lastnames.append(row['lastname'])
+            addresses.append(row['address'])
+            cities.append(row['city'])
+            timezones.append(row['timezone'])
+            if not repeat:
+                if row['city'] == city and row['address'] == address:
+                    repeat = True
 
     # add the new subscriber to the last row
     if not repeat:
@@ -46,6 +54,49 @@ def store_subscribe(firstname, lastname, address, city):
     return repeat
 
 
+def cities_subscribed(address):
+    cities = []
+    df = pandas.read_excel('users.xlsx', sheet_name="users")
+    for idx, row in df.iterrows():
+        # will only append subscribers other than the ones to unsubscribe
+        if address == row['address']:
+            cities.append(row['city'])
+    return cities
+
+
+def unsubscribe(address, city):
+    # read in previous user data
+    firstnames = []
+    lastnames = []
+    addresses = []
+    cities = []
+    timezones = []
+    df = pandas.read_excel('users.xlsx', sheet_name="users")
+    for idx, row in df.iterrows():
+        # will only append subscribers other than the ones to unsubscribe
+        if address != row['address'] or city != row['city']:
+            firstnames.append(row['firstname'])
+            lastnames.append(row['lastname'])
+            addresses.append(row['address'])
+            cities.append(row['city'])
+            timezones.append(row['timezone'])
+
+    # add a null position at the end to cover the previous one
+    firstnames.append("")
+    lastnames.append("")
+    addresses.append("")
+    cities.append("Null")
+    timezones.append("")
+
+    # write in file
+    columns = ['firstname', 'lastname', 'address', 'city', 'timezone']
+    df = pandas.DataFrame(list(zip(firstnames, lastnames, addresses, cities, timezones)), columns=columns)
+    with pandas.ExcelWriter('users.xlsx', mode='a', if_sheet_exists='overlay') as writer:
+        df.to_excel(writer, sheet_name='users')
+
+
+
+
 # send emails to the user about subscription successful
 def send_subscribe(firstname, address, city):
     body = f""" 
@@ -54,7 +105,7 @@ def send_subscribe(firstname, address, city):
            \tYou have successfully subscribed to our daily reminder service!
            \tWe will send you an email about the weather in {city} at 6am every day.
            \tHave a nice day! \n\n\n\n
-           \tTo unsubscribe, visit http://localhost:8501
+           \tTo unsubscribe, visit {original}
            """
     email = yagmail.SMTP(user=sender_addr, password=sender_pswd)
     email.send(to=address,

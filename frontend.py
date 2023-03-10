@@ -7,7 +7,7 @@ def web():
     place = st.text_input("Place: ")
     days = st.slider("Forecast Days", min_value=1, max_value=5, help="Select the number of forecast days")
     option = st.selectbox("Select data to view",
-                          ("Temperature", "Sky"))
+                          options=["Temperature", "Sky"])
     # using fstring because the header is dynamic (any change in place, days or option would change the header)
     st.subheader(f"{option} for the next {days} days in {place}")
     if place:

@@ -8,6 +8,9 @@ from streamlit_javascript import st_javascript
 from streamlit_cookies_manager import EncryptedCookieManager
 # from streamlit_extras.switch_page_button import switch_page
 
+# def get_subscribed_city():
+
+
 st.header("Subscribe")
 url = st_javascript("await fetch('').then(r => window.parent.location.href)")
 
@@ -48,7 +51,8 @@ if cache == Null:
         st.experimental_rerun()
 else:  # login, with cookies saved
     address = cache
-    with st.form(key="email_forms"):
+    # Subscribe
+    with st.form(key="subscribe_forms"):
         st.subheader("Logged in as " + address)
         city = st.text_input("The city / region to subscribe")
         firstname = st.text_input("Your firstname")
@@ -76,3 +80,18 @@ else:  # login, with cookies saved
         webbrowser.open(main, new=0)
         st.stop()
     cookies.save()  # Force saving the cookies now, without a rerun
+
+    cities = cities_subscribed(address)
+    if cities:
+        with st.form(key="unsubscribe_forms"):
+            st.subheader("Unsubscribe")
+            city_to_del = st.multiselect("Select city / region to unsubscribe", cities)
+            submit = st.form_submit_button(label="Submit")
+            if submit:
+                for city_name in city_to_del:
+                    unsubscribe(address, city_name)
+                    st.write("Successfully unsubscribed ", city_name)
+    else:
+        st.info("You have not subscribed any cities yet!")
+
+
