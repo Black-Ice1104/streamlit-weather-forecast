@@ -30,7 +30,7 @@ elif IS_RELEASED == "Streamlit":
     main = "https://weather-forecast-subscribe.streamlit.app"
     original = "https://weather-forecast-subscribe.streamlit.app/Subscribe"
     cache = cookies
-    Null = None
+    Null = cookies
 else:
     main = "http://localhost:8501"
     original = "http://localhost:8501/Subscribe"
