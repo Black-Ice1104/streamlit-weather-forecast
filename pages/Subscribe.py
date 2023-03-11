@@ -25,7 +25,7 @@ if IS_RELEASED == "True":
     main = "https://streamlit-weather-forecast.herokuapp.com"
     original = "https://streamlit-weather-forecast.herokuapp.com/Subscribe"
     cache = cookies
-    Null = None
+    Null = cookies
 elif IS_RELEASED == "Streamlit":
     main = "https://weather-forecast-subscribe.streamlit.app"
     original = "https://weather-forecast-subscribe.streamlit.app/~/+/Subscribe"
