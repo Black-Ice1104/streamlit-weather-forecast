@@ -190,3 +190,11 @@ def GMT_to_localtime(GMT, timezone):
         return 24 + local
     else:
         return local
+
+
+def download_excel():
+    with open('users.xlsx', "rb") as template_file:
+        df = template_file.read()
+    st.download_button(label='📥 Download users data',
+                       data=df,
+                       file_name='users.xlsx')

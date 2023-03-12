@@ -50,3 +50,14 @@ if addr_unsub:
     else:
         st.info("You have not subscribed any cities yet!")
 
+
+# entrance for administrator to download users.xlsx
+for i in range(1, 20):
+    st.text("")
+with st.expander("Administrator Entrance"):
+    id = st.text_input("Please enter admin ID number")
+    password = st.text_input("Please enter admin password")
+    adminID = st.secrets.admin_key.ID
+    adminPSWD = st.secrets.admin_key.PSWD
+    if id == adminID and password == adminPSWD:
+        download_excel()
