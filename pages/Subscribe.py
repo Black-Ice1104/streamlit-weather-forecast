@@ -1,7 +1,7 @@
 
 from send_email import *
 import streamlit as st
-
+import time
 st.header("Subscribe")
 
 IS_RELEASED = st.secrets.oauth_key.IS_RELEASED
@@ -45,6 +45,8 @@ if addr_unsub:
             for city_name in city_to_del:
                 unsubscribe(addr_unsub, city_name)
                 st.info("Successfully unsubscribed " + city_name + "!")
+                time.sleep(5)
+                st.experimental_rerun()
     else:
         st.info("You have not subscribed any cities yet!")
 
