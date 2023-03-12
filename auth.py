@@ -42,12 +42,12 @@ def get_back():
 
 def get_address():
     # get the code from the url
-    if st.experimental_get_query_params() != {}:  # if already logged in
-        client: GoogleOAuth2 = GoogleOAuth2(CLIENT_ID, CLIENT_SECRET)
-        code = st.experimental_get_query_params()['code']
-        token = asyncio.run(get_access_token(client, REDIRECT_URI, code))
-        user_id, user_email = asyncio.run(get_email(client, token['access_token']))
-        st.write(f"You're logged in as {user_email} and id is {user_id}")
-        return user_email
-    else:
-        return None
+    # if st.experimental_get_query_params() != {}:  # if already logged in
+    client: GoogleOAuth2 = GoogleOAuth2(CLIENT_ID, CLIENT_SECRET)
+    code = st.experimental_get_query_params()['code']
+    token = asyncio.run(get_access_token(client, REDIRECT_URI, code))
+    user_id, user_email = asyncio.run(get_email(client, token['access_token']))
+    st.write(f"You're logged in as {user_email} and id is {user_id}")
+    return user_email
+    # else:
+    #     return None
