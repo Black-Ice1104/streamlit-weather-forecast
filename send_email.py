@@ -5,6 +5,7 @@ import streamlit as st
 from backend import get_data
 import datetime
 
+a = 1
 sender_addr = st.secrets.email_key.sender_addr
 sender_pswd = st.secrets.email_key.sender_pswd
 
