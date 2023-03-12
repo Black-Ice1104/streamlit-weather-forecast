@@ -1,14 +1,8 @@
 
-import webbrowser
 from send_email import *
-from auth import *
-import time
 import streamlit as st
-from streamlit_javascript import st_javascript
-from streamlit_cookies_manager import EncryptedCookieManager
 
 st.header("Subscribe")
-url = st_javascript("await fetch('').then(r => window.parent.location.href)")
 
 IS_RELEASED = st.secrets.oauth_key.IS_RELEASED
 if IS_RELEASED == "True":
