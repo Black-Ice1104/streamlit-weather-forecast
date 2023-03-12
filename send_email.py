@@ -24,6 +24,7 @@ def store_subscribe(firstname, lastname, address, city):
     addresses = []
     cities = []
     timezones = []
+    email_contents = []
     df = pandas.read_excel('users.xlsx', sheet_name="users")
     repeat = False  # will only append new subscriber when unrepeated with current ones
     for idx, row in df.iterrows():
@@ -33,6 +34,7 @@ def store_subscribe(firstname, lastname, address, city):
             addresses.append(row['address'])
             cities.append(row['city'])
             timezones.append(row['timezone'])
+            email_contents.append(row['email_content'])
             if not repeat:
                 if row['city'] == city and row['address'] == address:
                     repeat = True
@@ -45,10 +47,11 @@ def store_subscribe(firstname, lastname, address, city):
         cities.append(city)
         timezone = str(int(get_data(city, 1)[1]))
         timezones.append(timezone)
+        email_contents.append("Null")
 
     # write in file
-    columns = ['firstname', 'lastname', 'address', 'city', 'timezone']
-    df = pandas.DataFrame(list(zip(firstnames, lastnames, addresses, cities, timezones)), columns=columns)
+    columns = ['firstname', 'lastname', 'address', 'city', 'timezone', 'email_content']
+    df = pandas.DataFrame(list(zip(firstnames, lastnames, addresses, cities, timezones, email_contents)), columns=columns)
     with pandas.ExcelWriter('users.xlsx', mode='a', if_sheet_exists='overlay') as writer:
         df.to_excel(writer, sheet_name='users')
     return repeat
@@ -71,6 +74,7 @@ def unsubscribe(address, city):
     addresses = []
     cities = []
     timezones = []
+    email_contents = []
     df = pandas.read_excel('users.xlsx', sheet_name="users")
     for idx, row in df.iterrows():
         # will only append subscribers other than the ones to unsubscribe
@@ -80,6 +84,7 @@ def unsubscribe(address, city):
             addresses.append(row['address'])
             cities.append(row['city'])
             timezones.append(row['timezone'])
+            email_contents.append(row['email_content'])
 
     # add a null position at the end to cover the previous one
     firstnames.append("")
@@ -87,10 +92,11 @@ def unsubscribe(address, city):
     addresses.append("")
     cities.append("Null")
     timezones.append("")
+    email_contents.append("")
 
     # write in file
-    columns = ['firstname', 'lastname', 'address', 'city', 'timezone']
-    df = pandas.DataFrame(list(zip(firstnames, lastnames, addresses, cities, timezones)), columns=columns)
+    columns = ['firstname', 'lastname', 'address', 'city', 'timezone', 'email_content']
+    df = pandas.DataFrame(list(zip(firstnames, lastnames, addresses, cities, timezones, email_contents)), columns=columns)
     with pandas.ExcelWriter('users.xlsx', mode='a', if_sheet_exists='overlay') as writer:
         df.to_excel(writer, sheet_name='users')
 
@@ -143,12 +149,32 @@ def send_weather():
                 body += item
             body += "\nHave a wonderful day!"
 
+            # read in user data
+            firstnames = []
+            lastnames = []
+            addresses = []
+            cities = []
+            timezones = []
+            email_contents = []
+            firstnames.append(row['firstname'])
+            lastnames.append(row['lastname'])
+            addresses.append(row['address'])
+            cities.append(row['city'])
+            timezones.append(row['timezone'])
+            email_contents.append(body)  # update the email content
+
+            columns = ['firstname', 'lastname', 'address', 'city', 'timezone', 'email_content']
+            df = pandas.DataFrame(list(zip(firstnames, lastnames, addresses, cities, timezones, email_contents)), columns=columns)
+            with pandas.ExcelWriter('users.xlsx', mode='a', if_sheet_exists='overlay') as writer:
+                df.to_excel(writer, sheet_name='users')
+
+
         # will only send email if it is 6am in the current timezone
         if datetime.datetime.now().hour == GMT_to_localtime(6, int(timezone)):
             email = yagmail.SMTP(user=sender_addr, password=sender_pswd)
             email.send(to=row['address'],
                        subject=f"Your Weather Forecast for {row['city']} today!",
-                       contents=body
+                       contents=row['timezone']
                        )
             print("emails sent to " + row['address'])
 
