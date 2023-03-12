@@ -172,11 +172,11 @@ def send_weather():
 
 
         # will only send email if it is 6am in the current timezone
-        if datetime.datetime.now().hour == GMT_to_localtime(6, int(timezone)):
+        if datetime.datetime.now().hour == GMT_to_localtime(6, int(timezone)) and row['email_content'] != "Null":
             email = yagmail.SMTP(user=sender_addr, password=sender_pswd)
             email.send(to=row['address'],
                        subject=f"Your Weather Forecast for {row['city']} today!",
-                       contents=row['timezone']
+                       contents=row['email_content']
                        )
             print("emails sent to " + row['address'])
 
