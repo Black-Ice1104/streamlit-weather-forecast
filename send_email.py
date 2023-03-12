@@ -127,7 +127,7 @@ def send_weather():
     for idx, row in df.iterrows():
         timezone = row['timezone']
         # the now time is GMT i.e. Greenwich Mean Time
-        # store the data at 9pm in the current timezone
+        # store the content of the email(to be sent at 6am) at 9pm in the current timezone
         if datetime.datetime.now().hour == GMT_to_localtime(21, int(timezone)):
             place = row['city']
             days = 1
@@ -144,10 +144,12 @@ def send_weather():
                    Hi, {row['firstname']}\n
                    \tThis is Weather Forecast Web App
                    \tSee what's the weather like in {row['city']} today!\n
+                   \tTo unsubscribe, visit {original}
                    """
             for item in layout:
                 body += item
-            body += "\nHave a wonderful day!"
+            body += "\nHave a wonderful day! \n\n\n\n"
+            body += f"\tTo unsubscribe, visit {original}"
 
             # read in user data
             firstnames = []
