@@ -110,7 +110,7 @@ def send_subscribe(firstname, address, city):
            \tThis is Weather Forecast Web App
            \tYou have successfully subscribed to our daily reminder service!
            \tWe will send you an email about the weather in {city} at 6am every day.
-           \tHave a nice day! \n\n\n\n
+           \tHave a nice day! \n
            \tTo unsubscribe, visit {original}
            """
     email = yagmail.SMTP(user=sender_addr, password=sender_pswd)
@@ -148,7 +148,7 @@ def send_weather():
                    """
             for item in layout:
                 body += item
-            body += "\nHave a wonderful day! \n\n\n\n"
+            body += "\nHave a wonderful day! \n"
             body += f"\tTo unsubscribe, visit {original}"
 
             # read in user data
