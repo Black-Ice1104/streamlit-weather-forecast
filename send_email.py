@@ -145,7 +145,6 @@ def send_weather():
                    Hi, {row['firstname']}\n
                    \tThis is Weather Forecast Web App
                    \tSee what's the weather like in {row['city']} today!\n
-                   \tTo unsubscribe, visit {original}
                    """
             for item in layout:
                 body += item
