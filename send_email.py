@@ -28,6 +28,7 @@ def store_subscribe(firstname, lastname, address, city):
     email_contents = []
     df = pandas.read_excel('users.xlsx', sheet_name="users")
     repeat = False  # will only append new subscriber when unrepeated with current ones
+
     for idx, row in df.iterrows():
         if row['city'] != "Null":
             firstnames.append(row['firstname'])
@@ -77,6 +78,7 @@ def unsubscribe(address, city):
     timezones = []
     email_contents = []
     df = pandas.read_excel('users.xlsx', sheet_name="users")
+
     for idx, row in df.iterrows():
         # will only append subscribers other than the ones to unsubscribe
         if address != row['address'] or city != row['city']:
@@ -124,8 +126,22 @@ def send_subscribe(firstname, address, city):
 
 # send a weather forecast email to the subscriber at 6pm every day
 def send_weather():
+    # read in user data
+    firstnames = []
+    lastnames = []
+    addresses = []
+    cities = []
+    timezones = []
+    email_contents = []
     df = pandas.read_excel('users.xlsx', sheet_name="users")
+
     for idx, row in df.iterrows():
+        firstnames.append(row['firstname'])
+        lastnames.append(row['lastname'])
+        addresses.append(row['address'])
+        cities.append(row['city'])
+        timezones.append(row['timezone'])
+
         timezone = row['timezone']
         # the now time is GMT i.e. Greenwich Mean Time
         # store the content of the email(to be sent at 6am) at 9pm in the current timezone
@@ -137,10 +153,12 @@ def send_weather():
             temperatures = [dicts["main"]["temp"] for dicts in filtered_data]
             sky_conditions = [dicts["weather"][0]["main"] for dicts in filtered_data]
 
+            # the weather detail
             layout = []
             for i, item in enumerate(times):
                 layout.append(times[i]+'\t'+str(temperatures[i])+'℃\t'+sky_conditions[i]+'\n')
 
+            # the email content
             body = f""" 
                    Hi, {row['firstname']}\n
                    \tThis is Weather Forecast Web App
@@ -151,27 +169,11 @@ def send_weather():
             body += "\nHave a wonderful day! \n"
             body += f"\tTo unsubscribe, visit {original}"
 
-            # read in user data
-            firstnames = []
-            lastnames = []
-            addresses = []
-            cities = []
-            timezones = []
-            email_contents = []
-            firstnames.append(row['firstname'])
-            lastnames.append(row['lastname'])
-            addresses.append(row['address'])
-            cities.append(row['city'])
-            timezones.append(row['timezone'])
             email_contents.append(body)  # update the email content
+        else:
+            email_contents.append(row['email_content'])  # update the email content
 
-            columns = ['firstname', 'lastname', 'address', 'city', 'timezone', 'email_content']
-            df = pandas.DataFrame(list(zip(firstnames, lastnames, addresses, cities, timezones, email_contents)), columns=columns)
-            with pandas.ExcelWriter('users.xlsx', mode='a', if_sheet_exists='overlay') as writer:
-                df.to_excel(writer, sheet_name='users')
-
-
-        # will only send email if it is 6am in the current timezone
+        # send email if it is 6am at the current timezone
         if datetime.datetime.now().hour == GMT_to_localtime(6, int(timezone)) and row['email_content'] != "Null":
             email = yagmail.SMTP(user=sender_addr, password=sender_pswd)
             email.send(to=row['address'],
@@ -179,6 +181,12 @@ def send_weather():
                        contents=row['email_content']
                        )
             print("emails sent to " + row['address'])
+
+    columns = ['firstname', 'lastname', 'address', 'city', 'timezone', 'email_content']
+    df = pandas.DataFrame(list(zip(firstnames, lastnames, addresses, cities, timezones, email_contents)), columns=columns)
+    with pandas.ExcelWriter('users.xlsx', mode='a', if_sheet_exists='overlay') as writer:
+        df.to_excel(writer, sheet_name='users')
+
 
 
 def GMT_to_localtime(GMT, timezone):
