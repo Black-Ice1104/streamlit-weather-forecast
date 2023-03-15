@@ -142,10 +142,10 @@ def send_weather():
         cities.append(row['city'])
         timezones.append(row['timezone'])
 
-        timezone = row['timezone']
+        timezone = int(row['timezone'])
         # the now time is GMT i.e. Greenwich Mean Time
         # store the content of the email(to be sent at 6am) at 9pm in the current timezone
-        if datetime.datetime.now().hour == GMT_to_localtime(21, int(timezone)):
+        if datetime.datetime.now().hour == GMT_to_localtime(21, timezone):
             place = row['city']
             days = 1
             filtered_data = get_data(place, days)[0]
@@ -174,7 +174,7 @@ def send_weather():
             email_contents.append(row['email_content'])  # update the email content
 
         # send email if it is 6am at the current timezone
-        if datetime.datetime.now().hour == GMT_to_localtime(6, int(timezone)) and row['email_content'] != "Null":
+        if datetime.datetime.now().hour == GMT_to_localtime(6, timezone) and row['email_content'] != "Null":
             email = yagmail.SMTP(user=sender_addr, password=sender_pswd)
             email.send(to=row['address'],
                        subject=f"Your Weather Forecast for {row['city']} today!",
@@ -188,13 +188,12 @@ def send_weather():
         df.to_excel(writer, sheet_name='users')
 
 
-
 def GMT_to_localtime(GMT, timezone):
     local = GMT - timezone
     if local > 24:
         return local - 24
     elif local < 0:
-        return 24 + local
+        return local + 24
     else:
         return local
 
