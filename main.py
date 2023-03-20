@@ -10,7 +10,6 @@ def send_email():
     while True:
         if datetime.datetime.now().minute == 0:  # if it is on the hour
             send_weather()
-            time.sleep(59)
 
 
 if __name__ == "__main__":
